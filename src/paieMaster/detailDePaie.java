@@ -1,6 +1,7 @@
 package paieMaster;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,10 +17,11 @@ import javax.swing.JOptionPane;
  * @Ponderation : 60%
  */
 public class detailDePaie extends javax.swing.JFrame {
-
+    //déclaration des variable tableau et instances employé selectionnez
     public ArrayList<employe> ListEmploye = new ArrayList<>();
     public ArrayList<departement> ListDepartement = new ArrayList<>();
     public employe selectedEmp = null;
+    
     
     public detailDePaie() {
         initComponents();
@@ -70,13 +72,16 @@ public class detailDePaie extends javax.swing.JFrame {
             System.exit(0);
         }
         
+        //init des entete du tableau
         String[] columnNames = {"No Employé", "Prénom", "Nom"};
         
+        // table a 2 dimensions pour affichage des data dans le tableau
         Object[][] data = new Object[ListEmploye.size()][];
         for (int i = 0; i < ListEmploye.size(); i++) {
             data[i] = ListEmploye.get(i).toObjectArray();
         }
         
+        // init du tableau avec entete et data
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             data,
             columnNames
@@ -92,6 +97,7 @@ public class detailDePaie extends javax.swing.JFrame {
         });
     }
     
+    //Click sur table load les valeur dans le formulaire 
      private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {                                     
         int index = jTable1.getSelectedRow();
         TableModel model = jTable1.getModel();
@@ -105,7 +111,7 @@ public class detailDePaie extends javax.swing.JFrame {
         SelectIDTextBox.setText(id);
         SelectedNomTextBox.setText(nom);
         SelectedPrenomTextBox.setText(prenom);
-        SelectedTauxTextBox.setText(selectedEmp.getTaux().toString()+ "$");
+        SelectedTauxTextBox.setText(selectedEmp.getTaux().toString());
         SelectedDeptTextBox.setText(selectedEmp.getDept());
         //System.out.printf(selectedEmp.getDept() + "%n");
         
@@ -129,8 +135,6 @@ public class detailDePaie extends javax.swing.JFrame {
         }
          return myEmp;
      }
-        
-        
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -182,6 +186,9 @@ public class detailDePaie extends javax.swing.JFrame {
         TotalVenteTextBox = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         CommissionTextBox = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        AssEmploiTextBoxEmp = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1200, 800));
@@ -225,8 +232,6 @@ public class detailDePaie extends javax.swing.JFrame {
         SelectedNomTextBox.setEditable(false);
 
         SelectedPrenomTextBox.setEditable(false);
-
-        SelectedTauxTextBox.setEditable(false);
 
         SelectedDeptTextBox.setEditable(false);
 
@@ -313,92 +318,114 @@ public class detailDePaie extends javax.swing.JFrame {
         CommissionTextBox.setEditable(false);
         CommissionTextBox.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
 
+        jLabel17.setText("Taux Horaire");
+
+        jLabel18.setText("Assurance RRC (employeur)");
+
+        AssEmploiTextBoxEmp.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(BoutonCalculerDeduction)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel3)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(SelectIDTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(SelectedNomTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(SelectedPrenomTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(SelectedDeptTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jLabel16)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addGap(23, 23, 23)
-                                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(AssEmplEmployeurTExtBox, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 77, Short.MAX_VALUE)))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(SelectedTauxTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
-                                        .addComponent(NombreHeureTextBox)
-                                        .addComponent(TotalVenteTextBox))))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(jLabel4)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(SalaireBrutTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(jLabel7)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(salaireBrutTotalTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel6)
-                                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(CommissionTextBox)
-                                                .addComponent(SalaireOverTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))))
-                                    .addGap(48, 48, 48)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(RRCTextBox)
-                                        .addComponent(totalDedctionTextBox, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(impotProvincialTextBox)
-                                        .addComponent(impotFederalTextBox)
-                                        .addComponent(AssEmploiTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(75, 75, 75)
-                                                .addComponent(jLabel5)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(SemaineDeTravailTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(BoutonCalculerDeduction)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel16)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(SelectIDTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(SelectedPrenomTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(SalaireNetTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(4, 4, 4)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                                                .addComponent(jLabel3))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(SelectedNomTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(SelectedDeptTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel17))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(23, 23, 23)
+                                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(68, 68, 68)
+                                                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(AssEmploiTextBoxEmp, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                                .addGap(86, 86, 86))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(AssEmplEmployeurTExtBox, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 88, Short.MAX_VALUE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(SelectedTauxTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                                    .addComponent(NombreHeureTextBox)
+                                    .addComponent(TotalVenteTextBox))))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(SalaireBrutTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(salaireBrutTotalTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(CommissionTextBox)
+                                            .addComponent(SalaireOverTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))))
+                                .addGap(48, 48, 48)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(RRCTextBox)
+                                    .addComponent(totalDedctionTextBox, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(impotProvincialTextBox)
+                                    .addComponent(impotFederalTextBox)
+                                    .addComponent(AssEmploiTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(75, 75, 75)
+                                            .addComponent(jLabel5)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(SemaineDeTravailTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(SalaireNetTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -413,7 +440,6 @@ public class detailDePaie extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SelectIDTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SelectedNomTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SelectedPrenomTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SelectedTauxTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SelectedDeptTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SalaireBrutTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -421,7 +447,8 @@ public class detailDePaie extends javax.swing.JFrame {
                     .addComponent(SemaineDeTravailTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(impotProvincialTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NombreHeureTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -429,7 +456,8 @@ public class detailDePaie extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(SalaireOverTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(impotFederalTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(SelectedPrenomTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -446,7 +474,10 @@ public class detailDePaie extends javax.swing.JFrame {
                     .addComponent(AssEmploiTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
                 .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jLabel12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel18)
+                    .addComponent(AssEmploiTextBoxEmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(totalDedctionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -465,9 +496,10 @@ public class detailDePaie extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    // Calculé les déduction - Click sur bouton
     private void BoutonCalculerDeductionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BoutonCalculerDeductionActionPerformed
-        // Calculer les déduction
+        // init variable local
         BigDecimal salaireBrut = new BigDecimal(0);
         BigDecimal salaireBrutOver = new BigDecimal(0);
         BigDecimal salaireBrutTotal = new BigDecimal(0);
@@ -475,20 +507,54 @@ public class detailDePaie extends javax.swing.JFrame {
         BigDecimal salaireNet = new BigDecimal(0);
         BigDecimal nbrHeures = new BigDecimal(0);
         BigDecimal totalCommission = new BigDecimal(0);
+        BigDecimal nbrHrsLimite = new BigDecimal(0);
+        BigDecimal taux = selectedEmp.getTaux();
+        Boolean valid = true;
         double totalVentes = 0;
         
+        // Validation du nombre d'heures par semaine pour over time
+        try {
+            nbrHrsLimite = BigDecimal.valueOf(Double.parseDouble((SemaineDeTravailTextBox.getText())));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Vous devez entré un nombre d'heures par semaine valide");
+        } finally {
+            if (nbrHrsLimite.compareTo(BigDecimal.ZERO)<=0) {
+                valid = false;
+                JOptionPane.showMessageDialog(null,"Le nombre d'heures par semaine ne peut pas etre zéro ou négatif");
+            }
+        }
+        
+        // Validation du nombre d'heure travailler
         try {
             nbrHeures = BigDecimal.valueOf(Double.parseDouble((NombreHeureTextBox.getText())));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Vous devez entré un nombre d'heures");
+            JOptionPane.showMessageDialog(null,"Vous devez entré un nombre d'heures travaillé");
+            valid = false;
+        } finally {
+            if (nbrHeures.compareTo(BigDecimal.ZERO)<=0) {
+                valid = false;
+                JOptionPane.showMessageDialog(null,"Le nombre d'heures travaillé ne peut pas etre zéro ou négatif");
+            }
         }
         
-        BigDecimal nbrHrsLimite = BigDecimal.valueOf(Double.parseDouble((SemaineDeTravailTextBox.getText())));
-        BigDecimal taux = selectedEmp.getTaux();
-        
+        // Validation du taux horaire
+        try {
+            taux = BigDecimal.valueOf(Double.parseDouble((SelectedTauxTextBox.getText())));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Vous devez entré un salaire employée");
+            valid = false;
+        } finally {
+            if (taux.compareTo(BigDecimal.ZERO)<=0) {
+                valid = false;
+                JOptionPane.showMessageDialog(null,"Le taux ne peut pas etre zéro ou négatif");
+            }
+        }
+        //BigDecimal taux = selectedEmp.getTaux();
         //System.out.printf(SelectedDeptTextBox.getText());
         
-        if (SelectedDeptTextBox.getText().contains("VENTES")) {
+        // Nombre validé procédé avec les calculs
+        if (valid) { 
+            if (SelectedDeptTextBox.getText().contains("VENTES")) {
              try {
                 totalVentes = Double.parseDouble(TotalVenteTextBox.getText());
              } catch (Exception e) {
@@ -507,17 +573,23 @@ public class detailDePaie extends javax.swing.JFrame {
                 salaireBrutTotal = salaireBrut.add(totalCommission);
 
             }   
+            } else {
+                if (nbrHrsLimite.compareTo(nbrHeures) <= 0){
+                    salaireBrut = nbrHrsLimite.multiply(taux);
+                    salaireBrutOver = nbrHeures.subtract(nbrHrsLimite).multiply(taux.multiply(new BigDecimal(1.5)));
+                    totalCommission = new BigDecimal(0);
+                    salaireBrutTotal = salaireBrutOver.add(salaireBrut);
+                } else { 
+                    salaireBrut = nbrHeures.multiply(taux);
+                    salaireBrutTotal = salaireBrut;
+                }
+            } 
         } else {
-            if (nbrHrsLimite.compareTo(nbrHeures) <= 0){
-                salaireBrut = nbrHrsLimite.multiply(taux);
-                salaireBrutOver = nbrHeures.subtract(nbrHrsLimite).multiply(taux.multiply(new BigDecimal(1.5)));
-                totalCommission = new BigDecimal(0);
-                salaireBrutTotal = salaireBrutOver.add(salaireBrut);
-            } else { 
-                salaireBrut = nbrHeures.multiply(taux);
-                salaireBrutTotal = salaireBrut;
-            }
+            
+            //JOptionPane.showMessageDialog(null,"Erreur de traitement validé les données");
         }
+        
+        
         
         
         DecimalFormat df = new DecimalFormat();
@@ -546,6 +618,7 @@ public class detailDePaie extends javax.swing.JFrame {
         impotProvincialTextBox.setText(df.format(impotProvincial.deductionImpot())+"$");
         impotFederalTextBox.setText(df.format(impotFederal.deductionImpot())+"$");
         RRCTextBox.setText(df.format(rrc.getDeductionRRC())+"$");
+        AssEmploiTextBoxEmp.setText(df.format(AssEmpl.getDeductionRRC())+"$");
         AssEmploiTextBox.setText(df.format(AssEmpl.getDeductionAssEmploie())+"$");
         AssEmplEmployeurTExtBox.setText(df.format(AssEmpl.getDeductionAssEmploieEmp())+"$");
         totalDedctionTextBox.setText(df.format(totaldeduction)+"$");
@@ -601,6 +674,7 @@ public class detailDePaie extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AssEmplEmployeurTExtBox;
     private javax.swing.JTextField AssEmploiTextBox;
+    private javax.swing.JTextField AssEmploiTextBoxEmp;
     private javax.swing.JButton BoutonCalculerDeduction;
     private javax.swing.JTextField CommissionTextBox;
     private javax.swing.JTextField NombreHeureTextBox;
@@ -625,6 +699,8 @@ public class detailDePaie extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
